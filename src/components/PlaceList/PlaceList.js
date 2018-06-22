@@ -7,7 +7,7 @@ const placeList = props => {
   const placesOutput = props.places.map((place, i) => (
     <ListItem
       key={i}
-      onItemPressed={() => alert('Alert Item id' + i)}
+      onItemPressed={() => props.onItemDeleted(i)}
       placeName={place}/>
   ));
 
