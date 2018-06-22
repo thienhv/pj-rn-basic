@@ -16,15 +16,18 @@ export default class App extends React.Component {
     }
     this.setState(prevState => {
       return {
-        places: prevState.places.concat(prevState.placeName)
+        places: prevState.places.concat({
+          key: Math.random().toString(),
+          value: prevState.placeName
+        })
       }
     });
   }
-  placeDeleteHandler = index => {
+  placeDeleteHandler = key => {
     this.setState(prevState => {
       return {
-        places: prevState.places.filter((place, i) => {
-          return i !== index;
+        places: prevState.places.filter((place) => {
+          return key !== place.key;
         })
       }
     });
