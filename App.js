@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import PlaceList from './src/components/PlaceList/PlaceList';
+import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
 
 export default class App extends React.Component {
   state = {
     placeName: '',
-    places: []
+    places: [],
+    selectedPlace: null
   }
   placeNameChangeHandler = val => {
     this.setState({placeName: val});
@@ -26,11 +28,26 @@ export default class App extends React.Component {
       }
     });
   }
-  placeDeleteHandler = key => {
+  placeDeleteHandler = () => {
     this.setState(prevState => {
       return {
         places: prevState.places.filter((place) => {
-          return key !== place.key;
+          return place.key !== prevState.selectedPlace.key;
+        }),
+        selectedPlace: null
+      }
+    });
+  }
+  onModalClosedHandler = () => {
+    this.setState({
+      selectedPlace: null
+    });
+  }
+  placeSelectedHandler = key => {
+    this.setState(prevState => {
+      return {
+        selectedPlace: prevState.places.find((place) => {
+          return key === place.key;
         })
       }
     });
@@ -38,6 +55,10 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <PlaceDetail
+          onItemDeleted={this.placeDeleteHandler}
+          onModalClosed={this.onModalClosedHandler}
+          selectedPlace={this.state.selectedPlace}/>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.placeInput}
@@ -50,7 +71,7 @@ export default class App extends React.Component {
             onPress={this.placeSubmitHandler}/>
         </View>
         <PlaceList
-          onItemDeleted={this.placeDeleteHandler}
+          onItemSelected={this.placeSelectedHandler}
           places={this.state.places}/>
       </View>
     );
