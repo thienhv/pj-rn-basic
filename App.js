@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import PlaceList from './src/components/PlaceList/PlaceList';
 import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
+import PlaceInput from './src/components/PlaceInput/PlaceInput';
 
 export default class App extends React.Component {
   state = {
@@ -59,17 +60,11 @@ export default class App extends React.Component {
           onItemDeleted={this.placeDeleteHandler}
           onModalClosed={this.onModalClosedHandler}
           selectedPlace={this.state.selectedPlace}/>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.placeInput}
-            value={this.state.placeName}
-            placeholder='Enter a text'
-            onChangeText={this.placeNameChangeHandler}/>
-          <Button
-            title='Add'
-            style={styles.placeButton}
-            onPress={this.placeSubmitHandler}/>
-        </View>
+        <PlaceInput
+          placeName={this.state.placeName}
+          onChangeText={this.placeNameChangeHandler}
+          onPress={this.placeSubmitHandler}
+          />
         <PlaceList
           onItemSelected={this.placeSelectedHandler}
           places={this.state.places}/>
@@ -85,21 +80,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  inputContainer: {
-    // flex: 1,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  listContainer: {
-    width: '100%'
-  },
-  placeInput: {
-    width: '70%'
-  },
-  placeButton: {
-    width: '30%'
   }
 });
